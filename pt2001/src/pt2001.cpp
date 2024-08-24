@@ -424,10 +424,11 @@ bool Pt2001Base::restart() {
 	shutdown();
 	deselect();
 
-	if (getVbatt() < 8) {
-		onError("GDI not Restarting until we see VBatt");
-		return false;
-	}
+	//chris
+	//if (getVbatt() < 8) {
+	//	onError("GDI not Restarting until we see VBatt");
+	//	return false;
+	//}
 
 	// Wait for chip to reset, then release reset and wait again
 	sleepMs(1);
@@ -462,9 +463,12 @@ bool Pt2001Base::restart() {
 	// current configuration of REG_MAIN would toggle flag0 from LOW to HIGH
 	flag0after = readFlag0();
 	if (flag0before || !flag0after) {
-		onError(McFault::flag0);
-		shutdown();
-		return false;
+		//chris
+		status = readDriverStatus();
+
+		//onError(McFault::flag0);
+		//shutdown();
+		//return false;
 	}
 
 	downloadRegister(REG_CH1);     // download channel 1 register configurations
